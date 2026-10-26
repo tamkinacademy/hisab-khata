@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1210">
+<title>হিসাব খাতা – TechCraft</title>
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" id="mf">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1210;--c1:#111c19;--c2:#17262f;--c2:#182722;--ln:#24382f;--tx:#eef5f2;--mut:#93a8a0;--gold:#e8b94a;--mint:#5eead4;--ok:#4ade80;--red:#ff7a7a}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(700px 400px at 90% -5%,rgba(232,185,74,.10),transparent 60%),var(--bg);color:var(--tx);font-family:'Hind Siliguri',system-ui,sans-serif;line-height:1.5;padding-bottom:84px;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none}
+.w{max-width:560px;margin:auto;padding:0 14px}
+header{position:sticky;top:0;z-index:20;background:rgba(11,18,16,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln)}
+.hb{display:flex;align-items:center;gap:10px;height:58px}.lg{width:36px;height:36px;border-radius:11px;background:#0e2a23;border:1px solid var(--ln);display:flex;align-items:center;justify-content:center;font:800 17px Georgia,serif}.lg b{color:var(--gold)}.lg i{color:var(--mint);font-style:normal}
+.hb h1{font-size:18px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ib{width:40px;height:40px;border-radius:12px;background:var(--c1);border:1px solid var(--ln);display:grid;place-items:center;font-size:18px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(11,18,16,.96);backdrop-filter:blur(12px);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom)}
+nav .w{display:grid;grid-template-columns:repeat(5,1fr);padding:0}nav button{padding:8px 2px 7px;color:var(--mut);font-size:12px;display:grid;gap:0;justify-items:center}nav button span{font-size:21px;line-height:1.2}nav button.on{color:var(--gold);font-weight:600}
+h2{font-size:19px;margin:18px 0 10px}h3{font-size:16px}
+.card{background:var(--c1);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.k{color:var(--mut);font-size:13px}.v{font-size:22px;font-weight:700;color:var(--gold)}.v.m{color:var(--mint)}.v.o{color:var(--ok)}.v.r{color:var(--red)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:48px;padding:0 20px;border-radius:14px;font-weight:700;background:linear-gradient(135deg,#e8b94a,#f3cf7a);color:#1a1405}.btn.g{background:var(--c2);color:var(--tx);border:1px solid var(--ln)}.btn.r{background:rgba(255,122,122,.14);color:var(--red);border:1px solid rgba(255,122,122,.35)}.btn.s{height:36px;padding:0 14px;font-size:14px;border-radius:11px}.btn.b{width:100%}
+.seg{display:flex;gap:6px;background:var(--c1);border:1px solid var(--ln);border-radius:14px;padding:4px;margin:10px 0}.seg button{flex:1;padding:8px 4px;border-radius:10px;color:var(--mut);font-weight:600;font-size:14px}.seg button.on{background:var(--gold);color:#1a1405}
+.row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--ln)}.row:last-child{border:0}.row .t{flex:1;min-width:0}.row .t b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row .t small{color:var(--mut)}.amt{font-weight:700;white-space:nowrap}
+.pill{font-size:12px;border-radius:99px;padding:1px 9px;background:rgba(147,168,160,.15);color:var(--mut)}.pill.r{background:rgba(255,122,122,.14);color:var(--red)}.pill.o{background:rgba(74,222,128,.14);color:var(--ok)}.pill.g{background:rgba(232,185,74,.15);color:var(--gold)}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+.fab{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:25;height:54px;padding:0 22px;border-radius:99px;box-shadow:0 10px 30px #000a}
+.ov{position:fixed;inset:0;z-index:60;background:rgba(5,8,7,.72);display:none;align-items:flex-end;justify-content:center}.ov.on{display:flex}
+.sh{width:100%;max-width:560px;max-height:92vh;overflow:auto;background:#0f1a17;border:1px solid var(--ln);border-radius:24px 24px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));animation:s .25s both}@keyframes s{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.sh h3{font-size:19px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+label{display:block;color:var(--mut);font-size:14px;margin:10px 0 4px}input,select,textarea{width:100%;background:var(--c1);border:1px solid var(--ln);border-radius:12px;padding:12px 13px;outline:none}input:focus,select:focus{border-color:var(--gold)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.note{background:rgba(232,185,74,.1);border:1px solid rgba(232,185,74,.35);color:#f5deb0;border-radius:12px;padding:10px 12px;font-size:14px;margin:10px 0}.note.m{background:rgba(94,234,212,.08);border-color:rgba(94,234,212,.3);color:#c9f7ef}.note.r{background:rgba(255,122,122,.1);border-color:rgba(255,122,122,.4);color:#ffd0d0}
+.err{color:var(--red);font-size:14px;min-height:20px;margin-top:6px}.toast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);background:#1d2e29;border:1px solid var(--ln);padding:9px 16px;border-radius:12px;z-index:90;opacity:0;pointer-events:none;transition:.2s}.toast.on{opacity:1}
+.bar{height:8px;border-radius:6px;background:var(--c2);overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--mint))}
+</style></head><body>
+<header><div class="w"><div class="hb"><div class="lg"><b>T</b><i>C</i></div><h1 id="ttl">হিসাব খাতা</h1><span id="sy" style="font-size:18px" title="">☁️</span><button class="ib" id="bset" aria-label="সেটিংস">⚙️</button></div></div></header>
+<main class="w" id="app"></main>
+<nav><div class="w" id="nv"></div></nav>
+<div class="ov" id="ov"><div class="sh" id="sh"></div></div><div class="toast" id="toast"></div>
+<script>
+const TRIAL=30;                           // ফ্রি ট্রায়ালে মোট কতটা এন্ট্রি দেওয়া যাবে
+const WA='8801942319608',PRICE=399;       // আপনার হোয়াটসঅ্যাপ ও দাম
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]),tk=n=>(n<0?'-':'')+'৳'+bn(Math.round(Math.abs(n)).toLocaleString('en-US'));
+const num=v=>{const m={'০':0,'১':1,'২':2,'৩':3,'৪':4,'৫':5,'৬':6,'৭':7,'৮':8,'৯':9};return parseFloat(String(v).replace(/[০-৯]/g,d=>m[d]).replace(/[^\d.]/g,''))||0};
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fd=s=>{const[y,m,d]=s.split('-');return bn(d+'-'+m+'-'+y)};const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+let toastT;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1900)};
+/* ---------- data ---------- */
+let D,ME=null,PF=null,FB=null,syncT,signingUp=false;
+const blank=()=>({shop:'',cash0:0,prods:[],sales:[],exps:[],dues:[]});D=blank();
+const CK=()=>'tc_hisab_'+ME.uid;
+const used=()=>D.sales.length+D.exps.length+D.dues.length;
+const licensed=()=>!!(PF&&PF.paid===true);
+const canAdd=()=>{if(licensed()||used()<TRIAL)return true;openLic();return false};
+function mark(st){const e=$('#sy');if(e){e.textContent=st==='ok'?'☁️':st==='wait'?'⏳':'⚠️';e.title=st==='ok'?'সেভ হয়েছে':st==='wait'?'সেভ হচ্ছে…':'ইন্টারনেট নেই, পরে সেভ হবে'}}
+const save=()=>{try{localStorage.setItem(CK(),JSON.stringify({d:D,dirty:true}))}catch(e){}mark('wait');clearTimeout(syncT);syncT=setTimeout(push,1200)};
+async function push(){if(!ME)return;try{const j=JSON.stringify(D);if(j.length>900000)toast('ডেটা অনেক বড় হয়ে গেছে, পুরোনো হিসাবের ব্যাকআপ নিন');await FB.setDoc(FB.doc(FB.db,'khata_data',ME.uid),{n:used(),json:j,ts:Date.now()});try{localStorage.setItem(CK(),JSON.stringify({d:D,dirty:false}))}catch(e){}mark('ok')}catch(e){mark('err');if(e&&e.code==='permission-denied'){toast('ট্রায়াল শেষ, সেভ হয়নি। অ্যাপ চালু করুন')}}}
+window.addEventListener('online',()=>{if(ME)push()});
+async function loadData(){
+  let cloud=null;try{const s=await FB.getDoc(FB.doc(FB.db,'khata_data',ME.uid));if(s.exists())cloud=JSON.parse(s.data().json)}catch(e){}
+  let c=null;try{c=JSON.parse(localStorage.getItem(CK())||'null')}catch(e){}
+  if(c&&c.dirty){D=Object.assign(blank(),c.d);push()}else if(cloud)D=Object.assign(blank(),cloud);else if(c)D=Object.assign(blank(),c.d);else D=blank();
+  mark('ok')}
+const prod=id=>D.prods.find(p=>p.id===id);
+const month=s=>s.slice(0,7);
+/* ---------- overlay ---------- */
+const sh=h=>{$('#sh').innerHTML=h;$('#ov').classList.add('on');document.body.style.overflow='hidden'};const cl=()=>{$('#ov').classList.remove('on');document.body.style.overflow=''};
+$('#ov').onclick=e=>{if(e.target.id==='ov')cl()};
+/* ---------- nav ---------- */
+let tab='home',rng='m';
+const TABS=[['home','🏠','হোম'],['sale','🛒','বিক্রি'],['due','📒','বাকি'],['stock','📦','স্টক'],['exp','💸','খরচ']];
+$('#nv').innerHTML=TABS.map(t=>`<button data-t="${t[0]}"><span>${t[1]}</span>${t[2]}</button>`).join('');
+$('#nv').onclick=e=>{const b=e.target.closest('button');if(b){tab=b.dataset.t;draw()}};
+$('#bset').onclick=()=>openSet();
+function draw(){document.querySelectorAll('#nv button').forEach(b=>b.classList.toggle('on',b.dataset.t===tab));$('#ttl').textContent=D.shop||'হিসাব খাতা';({home,sale,due,stock,exp}[tab])();window.scrollTo(0,0)}
+/* ---------- calculations ---------- */
+const inR=(d)=>rng==='a'||(rng==='t'?d===today():month(d)===month(today()));
+function stats(){
+  const S=D.sales.filter(s=>inR(s.date)),E=D.exps.filter(x=>inR(x.date));
+  const sales=S.reduce((a,s)=>a+s.qty*s.price,0),gp=S.reduce((a,s)=>a+s.qty*(s.price-s.cost),0),oe=E.filter(x=>x.type!=='মাল কেনা').reduce((a,x)=>a+x.amt,0);
+  const dueTot=D.dues.reduce((a,x)=>a+x.amt-x.paid,0);
+  const cashIn=D.sales.filter(s=>s.pay!=='বাকি').reduce((a,s)=>a+s.qty*s.price,0)+D.dues.reduce((a,x)=>a+x.paid,0);
+  const cash=D.cash0+cashIn-D.exps.reduce((a,x)=>a+x.amt,0);
+  const stockV=D.prods.reduce((a,p)=>a+p.stock*p.cost,0);
+  return{sales,gp,oe,net:gp-oe,dueTot,cash,stockV,cnt:S.length}
+}
+const seg=()=>`<div class="seg">${[['t','আজ'],['m','এ মাস'],['a','সব']].map(r=>`<button data-r="${r[0]}" class="${rng===r[0]?'on':''}">${r[1]}</button>`).join('')}</div>`;
+const bindSeg=()=>document.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{rng=b.dataset.r;draw()});
+const trialBar=()=>licensed()?'':`<div class="note m">🎁 ফ্রি ট্রায়াল: ${bn(Math.max(0,TRIAL-used()))}টি এন্ট্রি বাকি। <a href="#" id="actl" style="color:var(--gold)">পুরো অ্যাপ চালু করুন</a></div>`;
+const bindTrial=()=>{const a=$('#actl');if(a)a.onclick=e=>{e.preventDefault();openLic()}};
+/* ---------- home ---------- */
+function home(){
+  const s=stats(),low=D.prods.filter(p=>p.stock<=p.min);
+  $('#app').innerHTML=`${D.prods.length?'':`<div class="note">👋 শুরুতে <b>স্টক</b> বাটনে গিয়ে আপনার পণ্যগুলো যোগ করুন। তারপর <b>বিক্রি</b> লেখা শুরু করুন।</div>`}${seg()}
+  <div class="card" style="background:linear-gradient(160deg,rgba(232,185,74,.14),rgba(94,234,212,.05))"><div class="k">নিট লাভ</div><div class="v ${s.net<0?'r':'o'}" style="font-size:34px">${tk(s.net)}</div><div class="k">মোট বিক্রি ${tk(s.sales)} · ${bn(s.cnt)}টি বিক্রি</div></div>
+  <div class="g2"><div class="card"><div class="k">মোট লাভ (মাল বাদে)</div><div class="v">${tk(s.gp)}</div></div><div class="card"><div class="k">অন্যান্য খরচ</div><div class="v r">${tk(s.oe)}</div></div>
+  <div class="card"><div class="k">বাকি পাওনা</div><div class="v ${s.dueTot>0?'r':'m'}">${tk(s.dueTot)}</div></div><div class="card"><div class="k">হাতে নগদ (আনুমানিক)</div><div class="v m">${tk(s.cash)}</div></div></div>
+  <div class="card"><div class="k">মজুদ মালের মূল্য</div><div class="v m">${tk(s.stockV)}</div></div>
+  ${low.length?`<h2>⚠️ মাল কমে যাচ্ছে</h2><div class="card">${low.map(p=>`<div class="row"><div class="t"><b>${esc(p.name)}</b><small>আছে ${bn(p.stock)}, কমপক্ষে ${bn(p.min)} রাখুন</small></div><span class="pill r">অর্ডার দিন</span></div>`).join('')}</div>`:''}
+  ${trialBar()}<button class="btn b" id="hn">＋ নতুন বিক্রি লিখুন</button>`;
+  bindSeg();bindTrial();$('#hn').onclick=()=>{tab='sale';draw();openSale()}
+}
+/* ---------- sales ---------- */
+function sale(){
+  const L=[...D.sales].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id)).slice(0,100);
+  $('#app').innerHTML=`<h2>🛒 বিক্রির খাতা</h2>${trialBar()}<div class="card">${L.length?L.map(s=>`<div class="row" data-s="${s.id}"><div class="t"><b>${esc(s.name)} × ${bn(s.qty)}</b><small>${fd(s.date)}${s.cust?' · '+esc(s.cust):''} · <span class="pill ${s.pay==='বাকি'?'r':'o'}">${s.pay}</span></small></div><div class="amt">${tk(s.qty*s.price)}</div></div>`).join(''):'<div class="empty">এখনো কোনো বিক্রি নেই</div>'}</div><button class="btn fab" id="ns">＋ বিক্রি</button>`;
+  $('#ns').onclick=()=>openSale();bindTrial();
+  document.querySelectorAll('[data-s]').forEach(r=>r.onclick=()=>{const s=D.sales.find(x=>x.id===r.dataset.s);sh(`<h3>বিক্রির বিবরণ <button class="ib" onclick="cl()">✕</button></h3><div class="card"><b>${esc(s.name)} × ${bn(s.qty)}</b><div class="k">${fd(s.date)} · ${tk(s.qty*s.price)} · ${s.pay}${s.cust?' · '+esc(s.cust):''}</div><div class="k">লাভ ${tk(s.qty*(s.price-s.cost))}</div></div><button class="btn r b" id="ds">এই বিক্রি মুছুন</button>`);$('#ds').onclick=()=>{if(!confirm('মুছবেন? স্টক ফিরে আসবে।'))return;const p=prod(s.pid);if(p)p.stock+=s.qty;if(s.pay==='বাকি')D.dues=D.dues.filter(d=>d.sid!==s.id);D.sales=D.sales.filter(x=>x.id!==s.id);save();cl();draw()}})
+}
+function openSale(){
+  if(!canAdd())return;
+  if(!D.prods.length){sh(`<h3>আগে পণ্য যোগ করুন <button class="ib" onclick="cl()">✕</button></h3><div class="note">বিক্রি লিখতে হলে আগে "স্টক" পাতায় পণ্য যোগ করতে হবে।</div><button class="btn b" onclick="cl();tab='stock';draw();openProd()">পণ্য যোগ করুন</button>`);return}
+  let pay='নগদ';
+  sh(`<h3>নতুন বিক্রি <button class="ib" onclick="cl()">✕</button></h3>
+  <label>পণ্য</label><select id="sp">${D.prods.map(p=>`<option value="${p.id}">${esc(p.name)} (আছে ${bn(p.stock)})</option>`).join('')}</select>
+  <div class="two"><div><label>পরিমাণ</label><input id="sq" inputmode="decimal" value="১"></div><div><label>একক দাম (৳)</label><input id="sc" inputmode="numeric"></div></div>
+  <label>পেমেন্ট</label><div class="seg" id="sg">${['নগদ','বিকাশ/নগদ','বাকি'].map((x,i)=>`<button data-p="${x}" class="${i?'':'on'}">${x}</button>`).join('')}</div>
+  <div id="cw" style="display:none"><label>ক্রেতার নাম (বাকির জন্য আবশ্যক)</label><input id="cn" placeholder="যেমন: করিম ভাই"><label>ফোন (ঐচ্ছিক)</label><input id="cph" inputmode="numeric"></div>
+  <label>তারিখ</label><input id="sd" type="date" value="${today()}">
+  <div class="card" style="margin-top:12px"><span class="k">মোট</span> <b id="st" style="font-size:22px;color:var(--gold)">৳০</b></div><div class="err" id="er"></div><button class="btn b" id="sv">সেভ করুন</button>`);
+  const fill=()=>{const p=prod($('#sp').value);$('#sc').value=p.price;tot()};const tot=()=>{$('#st').textContent=tk(num($('#sq').value)*num($('#sc').value))};
+  $('#sp').onchange=fill;$('#sq').oninput=tot;$('#sc').oninput=tot;fill();
+  $('#sg').onclick=e=>{const b=e.target.closest('button');if(!b)return;pay=b.dataset.p;document.querySelectorAll('#sg button').forEach(x=>x.classList.toggle('on',x===b));$('#cw').style.display=pay==='বাকি'?'block':'none'};
+  $('#sv').onclick=()=>{const p=prod($('#sp').value),q=num($('#sq').value),pr=num($('#sc').value),cn=$('#cn').value.trim();
+    if(q<=0)return $('#er').textContent='পরিমাণ লিখুন';if(pr<=0)return $('#er').textContent='দাম লিখুন';if(pay==='বাকি'&&cn.length<2)return $('#er').textContent='বাকির জন্য ক্রেতার নাম লিখুন';
+    if(q>p.stock&&!confirm('স্টকে মাত্র '+bn(p.stock)+' আছে। তবুও লিখবেন?'))return;
+    const s={id:uid(),date:$('#sd').value||today(),pid:p.id,name:p.name,qty:q,price:pr,cost:p.cost,pay,cust:cn};D.sales.push(s);p.stock-=q;
+    if(pay==='বাকি'){const e=D.dues.find(d=>d.name===cn&&d.open);D.dues.push({id:uid(),sid:s.id,date:s.date,name:cn,phone:$('#cph').value.trim(),amt:q*pr,paid:0,note:p.name+' × '+q})}
+    save();cl();toast('বিক্রি সেভ হয়েছে ✓');draw()}
+}
+/* ---------- due ---------- */
+function due(){
+  const g={};D.dues.forEach(d=>{(g[d.name]=g[d.name]||{name:d.name,phone:d.phone,amt:0,paid:0}).amt+=d.amt;g[d.name].paid+=d.paid;if(d.phone)g[d.name].phone=d.phone});
+  const L=Object.values(g).sort((a,b)=>(b.amt-b.paid)-(a.amt-a.paid)),tot=L.reduce((a,x)=>a+x.amt-x.paid,0);
+  $('#app').innerHTML=`<h2>📒 বাকির খাতা</h2>${trialBar()}<div class="card"><div class="k">মোট বাকি পাওনা</div><div class="v ${tot>0?'r':'m'}">${tk(tot)}</div></div><div class="card">${L.length?L.map(x=>`<div class="row" data-n="${esc(x.name)}"><div class="t"><b>${esc(x.name)}</b><small>${x.phone?esc(x.phone)+' · ':''}মোট ${tk(x.amt)}, আদায় ${tk(x.paid)}</small></div><div class="amt" style="color:${x.amt-x.paid>0?'var(--red)':'var(--ok)'}">${x.amt-x.paid>0?tk(x.amt-x.paid):'পরিশোধ ✓'}</div></div>`).join(''):'<div class="empty">কারো কাছে বাকি নেই 🎉<br>বিক্রিতে "বাকি" বেছে নিলে এখানে আসবে</div>'}</div><button class="btn fab" id="nd">＋ বাকি</button>`;
+  $('#nd').onclick=()=>openDue();bindTrial();
+  document.querySelectorAll('[data-n]').forEach(r=>r.onclick=()=>openCust(r.dataset.n))
+}
+function openCust(n){
+  const L=D.dues.filter(d=>d.name===n),amt=L.reduce((a,x)=>a+x.amt,0),paid=L.reduce((a,x)=>a+x.paid,0),ph=(L.find(x=>x.phone)||{}).phone||'';
+  sh(`<h3>${esc(n)} <button class="ib" onclick="cl()">✕</button></h3><div class="card"><div class="k">এখনো বাকি</div><div class="v r">${tk(amt-paid)}</div><div class="k">মোট ${tk(amt)} · আদায় ${tk(paid)}</div></div>
+  ${L.map(x=>`<div class="row"><div class="t"><b>${esc(x.note||'বাকি')}</b><small>${fd(x.date)}</small></div><div class="amt">${tk(x.amt)}</div></div>`).join('')}
+  ${amt-paid>0?`<label>টাকা আদায় হলো (৳)</label><input id="pa" inputmode="numeric" value="${amt-paid}"><div class="err" id="er"></div><button class="btn b" id="pb">আদায় সেভ করুন</button>`:''}
+  ${ph?`<a class="btn g b" style="margin-top:8px" href="https://wa.me/88${ph.replace(/\D/g,'').replace(/^88/,'')}?text=${encodeURIComponent('আসসালামু আলাইকুম, আপনার ৳'+Math.round(amt-paid)+' বাকি আছে। সুবিধামতো পরিশোধ করবেন।')}" target="_blank" rel="noopener">💬 WhatsApp-এ মনে করিয়ে দিন</a>`:''}`);
+  const pb=$('#pb');if(pb)pb.onclick=()=>{let a=num($('#pa').value);if(a<=0)return $('#er').textContent='টাকা লিখুন';if(a>amt-paid)return $('#er').textContent='বাকির বেশি নেওয়া যাবে না';if(!canAdd())return;
+    for(const d of L){const r=d.amt-d.paid;if(r<=0)continue;const t=Math.min(r,a);d.paid+=t;a-=t;if(a<=0)break}save();cl();toast('আদায় সেভ হয়েছে ✓');draw()}
+}
+function openDue(){
+  if(!canAdd())return;
+  sh(`<h3>পুরোনো বাকি যোগ করুন <button class="ib" onclick="cl()">✕</button></h3><label>ক্রেতার নাম</label><input id="dn"><label>ফোন (ঐচ্ছিক)</label><input id="dp" inputmode="numeric"><div class="two"><div><label>বাকি টাকা (৳)</label><input id="da" inputmode="numeric"></div><div><label>তারিখ</label><input id="dd" type="date" value="${today()}"></div></div><label>কীসের জন্য (ঐচ্ছিক)</label><input id="dt"><div class="err" id="er"></div><button class="btn b" id="dv">সেভ করুন</button>`);
+  $('#dv').onclick=()=>{const n=$('#dn').value.trim(),a=num($('#da').value);if(n.length<2)return $('#er').textContent='নাম লিখুন';if(a<=0)return $('#er').textContent='টাকা লিখুন';D.dues.push({id:uid(),date:$('#dd').value||today(),name:n,phone:$('#dp').value.trim(),amt:a,paid:0,note:$('#dt').value.trim()||'পুরোনো বাকি'});save();cl();draw()}
+}
+/* ---------- stock ---------- */
+function stock(){
+  $('#app').innerHTML=`<h2>📦 স্টক (মজুদ)</h2><div class="card">${D.prods.length?D.prods.map(p=>`<div class="row" data-p="${p.id}"><div class="t"><b>${esc(p.name)}</b><small>কেনা ${tk(p.cost)} · বিক্রয় ${tk(p.price)}</small></div><div style="text-align:right"><div class="amt">${bn(p.stock)}</div>${p.stock<=p.min?'<span class="pill r">কম</span>':''}</div></div>`).join(''):'<div class="empty">এখনো পণ্য নেই।<br>নিচের বাটনে চেপে প্রথম পণ্য যোগ করুন</div>'}</div><button class="btn fab" id="np">＋ পণ্য</button>`;
+  $('#np').onclick=()=>openProd();document.querySelectorAll('[data-p]').forEach(r=>r.onclick=()=>openProd(r.dataset.p))
+}
+function openProd(id){
+  const p=id?prod(id):null;
+  sh(`<h3>${p?'পণ্য এডিট':'নতুন পণ্য'} <button class="ib" onclick="cl()">✕</button></h3><label>পণ্যের নাম</label><input id="pn" value="${esc(p?p.name:'')}" placeholder="যেমন: চিনি (১ কেজি)">
+  <div class="two"><div><label>কেনা দাম (৳)</label><input id="pc" inputmode="numeric" value="${p?p.cost:''}"></div><div><label>বিক্রয় দাম (৳)</label><input id="pp" inputmode="numeric" value="${p?p.price:''}"></div></div>
+  <div class="two"><div><label>এখন স্টকে আছে</label><input id="ps" inputmode="decimal" value="${p?p.stock:''}"></div><div><label>কমপক্ষে রাখুন (সতর্কতা)</label><input id="pm" inputmode="decimal" value="${p?p.min:5}"></div></div>
+  <div class="err" id="er"></div><button class="btn b" id="pv">সেভ করুন</button>${p?`<button class="btn g b" id="pa" style="margin-top:8px">＋ মাল ঢুকেছে (স্টক বাড়ান)</button><button class="btn r b" id="pd" style="margin-top:8px">এই পণ্য মুছুন</button>`:''}`);
+  $('#pv').onclick=()=>{const n=$('#pn').value.trim(),c=num($('#pc').value),pr=num($('#pp').value);if(n.length<2)return $('#er').textContent='পণ্যের নাম লিখুন';if(pr<=0)return $('#er').textContent='বিক্রয় দাম লিখুন';
+    if(!p&&D.prods.length>=500)return;const o={name:n,cost:c,price:pr,stock:num($('#ps').value),min:num($('#pm').value)};if(p)Object.assign(p,o);else D.prods.push(Object.assign({id:uid()},o));save();cl();draw()};
+  if(p){$('#pd').onclick=()=>{if(!confirm('মুছবেন? আগের বিক্রির হিসাব থাকবে।'))return;D.prods=D.prods.filter(x=>x.id!==p.id);save();cl();draw()};
+   $('#pa').onclick=()=>{sh(`<h3>মাল ঢুকেছে: ${esc(p.name)} <button class="ib" onclick="cl()">✕</button></h3><label>কত পরিমাণ এলো</label><input id="aq" inputmode="decimal"><label>মোট কত টাকায় কিনলেন (৳, ঐচ্ছিক)</label><input id="ac" inputmode="numeric" placeholder="খরচের খাতায় যোগ হবে"><div class="err" id="er"></div><button class="btn b" id="av">সেভ করুন</button>`);
+     $('#av').onclick=()=>{const q=num($('#aq').value),c=num($('#ac').value);if(q<=0)return $('#er').textContent='পরিমাণ লিখুন';p.stock+=q;if(c>0)D.exps.push({id:uid(),date:today(),desc:p.name+' কেনা',type:'মাল কেনা',amt:c});save();cl();toast('স্টক বেড়েছে ✓');draw()}}}
+}
+/* ---------- expenses ---------- */
+const ET=['মাল কেনা','দোকান ভাড়া','বেতন','বিদ্যুৎ/ইন্টারনেট','পরিবহন','মার্কেটিং','অন্যান্য'];
+function exp(){
+  const L=[...D.exps].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,100),S=D.exps.filter(x=>month(x.date)===month(today())).reduce((a,x)=>a+x.amt,0);
+  $('#app').innerHTML=`<h2>💸 খরচের খাতা</h2>${trialBar()}<div class="card"><div class="k">এ মাসের মোট খরচ</div><div class="v r">${tk(S)}</div></div><div class="card">${L.length?L.map(x=>`<div class="row" data-e="${x.id}"><div class="t"><b>${esc(x.desc)}</b><small>${fd(x.date)} · ${x.type}</small></div><div class="amt">${tk(x.amt)}</div></div>`).join(''):'<div class="empty">এখনো কোনো খরচ নেই</div>'}</div><button class="btn fab" id="ne">＋ খরচ</button>`;
+  $('#ne').onclick=()=>openExp();bindTrial();document.querySelectorAll('[data-e]').forEach(r=>r.onclick=()=>{const x=D.exps.find(y=>y.id===r.dataset.e);if(confirm('"'+x.desc+'" খরচটি মুছবেন?')){D.exps=D.exps.filter(y=>y.id!==x.id);save();draw()}})
+}
+function openExp(){
+  if(!canAdd())return;
+  sh(`<h3>নতুন খরচ <button class="ib" onclick="cl()">✕</button></h3><label>ধরন</label><select id="et">${ET.map(t=>`<option>${t}</option>`).join('')}</select><label>বিবরণ</label><input id="ed" placeholder="যেমন: দোকান ভাড়া, অক্টোবর"><div class="two"><div><label>টাকা (৳)</label><input id="ea" inputmode="numeric"></div><div><label>তারিখ</label><input id="edt" type="date" value="${today()}"></div></div><div class="note m">মাল কেনার খরচ এখানে লিখলে লাভের হিসাবে দুবার ধরা হয় না।</div><div class="err" id="er"></div><button class="btn b" id="ev">সেভ করুন</button>`);
+  $('#ev').onclick=()=>{const a=num($('#ea').value),d=$('#ed').value.trim()||$('#et').value;if(a<=0)return $('#er').textContent='টাকা লিখুন';D.exps.push({id:uid(),date:$('#edt').value||today(),desc:d,type:$('#et').value,amt:a});save();cl();draw()}
+}
+/* ---------- settings / license ---------- */
+function openSet(){
+  sh(`<h3>⚙️ সেটিংস <button class="ib" onclick="cl()">✕</button></h3><label>দোকানের নাম</label><input id="sn" value="${esc(D.shop)}"><label>শুরুর নগদ টাকা (৳)</label><input id="sc0" inputmode="numeric" value="${D.cash0||''}">
+  <button class="btn b" id="ss" style="margin-top:12px">সেভ করুন</button><h2 style="font-size:16px">ব্যাকআপ</h2><div class="note">আপনার সব হিসাব এই ফোনেই জমা থাকে। ফোন বদলালে বা ব্রাউজারের ডেটা মুছলে হিসাব হারাতে পারেন, তাই মাঝে মাঝে ব্যাকআপ নিন।</div>
+  <div class="two"><button class="btn g" id="bx">⬇️ ব্যাকআপ নিন</button><button class="btn g" id="bi">⬆️ ফেরত আনুন</button></div><input type="file" id="bf" accept=".json" hidden>
+  <h2 style="font-size:16px">আপনার একাউন্ট</h2><div class="card"><b>${esc(PF?PF.name:'')}</b><div class="k">${esc(ME?ME.email:'')}</div><div style="margin-top:8px">${licensed()?'<span class="pill o">✓ পুরো অ্যাপ চালু</span>':`<span class="pill g">ফ্রি ট্রায়াল</span> ${bn(used())}/${bn(TRIAL)} এন্ট্রি<div class="bar" style="margin-top:8px"><i style="width:${Math.min(100,used()/TRIAL*100)}%"></i></div>`}</div></div>${licensed()?'':'<button class="btn b" id="bl">পুরো অ্যাপ চালু করুন</button>'}<button class="btn r b" id="lo" style="margin-top:8px">🚪 লগআউট</button>
+  <div class="note" style="margin-top:14px">📲 <b>হোম স্ক্রিনে যোগ করুন:</b> ব্রাউজারের মেনু (⋮) → "Add to Home screen"। তাহলে অ্যাপের মতো আইকন থেকে খুলবে।</div>`);
+  $('#ss').onclick=()=>{D.shop=$('#sn').value.trim();D.cash0=num($('#sc0').value);save();cl();draw()};
+  $('#bx').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D)],{type:'application/json'}));a.download='hisab-backup-'+today()+'.json';document.body.appendChild(a);a.click();a.remove()};
+  $('#bi').onclick=()=>$('#bf').click();$('#bf').onchange=async e=>{try{const o=JSON.parse(await e.target.files[0].text());if(!o.prods||!o.sales)throw 0;if(!confirm('এখনকার হিসাব মুছে এই ব্যাকআপ লোড হবে। ঠিক আছে?'))return;D=Object.assign(blank(),o);save();cl();draw();toast('ব্যাকআপ লোড হয়েছে ✓')}catch(x){toast('ফাইলটি ঠিক নয়')}};
+  const bl=$('#bl');if(bl)bl.onclick=openLic;$('#lo').onclick=async()=>{if(confirm('লগআউট করবেন?')){cl();await FB.signOut(FB.auth)}}
+}
+function openLic(){
+  sh(`<h3>🔓 পুরো অ্যাপ চালু করুন <button class="ib" onclick="cl()">✕</button></h3><div class="note">${used()>=TRIAL?'আপনার ফ্রি ট্রায়াল শেষ। ':''}একবার ${tk(PRICE)} দিলে সারা জীবন ব্যবহার করতে পারবেন, কোনো মাসিক খরচ নেই।</div>
+  <div class="card"><b>কীভাবে নেবেন</b><ol style="margin:6px 0 0 18px;color:var(--mut);font-size:14px"><li>নিচের বাটনে চেপে হোয়াটসঅ্যাপে মেসেজ করুন (আপনার ইমেইল সহ যাবে)</li><li>${tk(PRICE)} নগদে পাঠান (নম্বর হোয়াটসঅ্যাপে দেওয়া হবে)</li><li>আমরা আপনার একাউন্ট চালু করে দেব, সাধারণত কয়েক ঘণ্টায়</li><li>তারপর নিচের "অবস্থা দেখুন" চাপুন</li></ol></div>
+  <a class="btn b" style="background:linear-gradient(135deg,#25d366,#1fb457);color:#042b12;margin-bottom:10px" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent('আসসালামু আলাইকুম, হিসাব খাতা অ্যাপ চালু করতে চাই।\nনাম: '+(PF?PF.name:'')+'\nইমেইল: '+(ME?ME.email:''))}">💬 WhatsApp-এ মেসেজ করুন</a>
+  <button class="btn g b" id="rf">🔄 অবস্থা দেখুন</button>`);
+  $('#rf').onclick=async()=>{PF=await getPF();if(licensed()){cl();toast('অ্যাপ চালু হয়েছে ✓');draw()}else toast('এখনো চালু হয়নি, একটু অপেক্ষা করুন')}
+}
+try{const m={name:'হিসাব খাতা',short_name:'হিসাব',start_url:'.',display:'standalone',background_color:'#0b1210',theme_color:'#0b1210',icons:[]};$('#mf').href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}))}catch(e){}
+/* ---------- login / registration ---------- */
+const AERR={'auth/email-already-in-use':'এই ইমেইলে আগেই একাউন্ট আছে, লগইন করুন','auth/invalid-credential':'ইমেইল বা পাসওয়ার্ড ভুল','auth/wrong-password':'পাসওয়ার্ড ভুল','auth/user-not-found':'এই ইমেইলে একাউন্ট নেই','auth/invalid-email':'সঠিক ইমেইল লিখুন','auth/weak-password':'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর দিন','auth/too-many-requests':'অনেকবার চেষ্টা হয়েছে, একটু পরে আবার চেষ্টা করুন','auth/network-request-failed':'ইন্টারনেট নেই','permission-denied':'অনুমতি নেই, ইন্টারনেট/অ্যাডমিনকে জানান'};
+const ae=e=>AERR[e&&e.code]||('সমস্যা হয়েছে: '+((e&&e.code)||e));
+const nav=on=>{$('#nv').parentElement.style.display=on?'':'none';$('#bset').style.display=on?'':'none'};
+const getPF=async()=>{try{const s=await FB.getDoc(FB.doc(FB.db,'khata_users',ME.uid));return s.exists()?s.data():null}catch(e){return PF}};
+function showAuth(mode){
+  mode=mode||'in';nav(false);$('#ttl').textContent='হিসাব খাতা';
+  $('#app').innerHTML=`<div style="text-align:center;margin:26px 0 16px"><div style="font-size:54px">📒</div><h2 style="font-size:24px;margin:6px 0">দোকানের হিসাব, মোবাইলেই</h2><div class="k">বিক্রি, বাকি, স্টক ও লাভ-লোকসান এক জায়গায়। ফ্রিতে শুরু করুন।</div></div>
+  <div class="seg"><button data-m="in" class="${mode==='in'?'on':''}">লগইন</button><button data-m="up" class="${mode==='up'?'on':''}">নতুন একাউন্ট</button></div><div class="card">
+  ${mode==='up'?`<label style="margin-top:0">আপনার নাম</label><input id="an" autocomplete="name"><label>দোকানের নাম</label><input id="as" placeholder="যেমন: রহিম স্টোর"><label>মোবাইল নম্বর</label><input id="ap" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX" autocomplete="tel">`:''}
+  <label ${mode==='in'?'style="margin-top:0"':''}>ইমেইল</label><input id="ae" type="email" autocapitalize="none" autocomplete="email" placeholder="you@gmail.com"><label>পাসওয়ার্ড</label><input id="aw" type="password" autocomplete="${mode==='up'?'new-password':'current-password'}" placeholder="কমপক্ষে ৬ অক্ষর">
+  <div class="err" id="er"></div><button class="btn b" id="ago">${mode==='up'?'একাউন্ট খুলুন':'লগইন করুন'}</button>${mode==='in'?'<div style="text-align:center;margin-top:12px"><a href="#" id="fg" style="color:var(--gold);font-size:14px">পাসওয়ার্ড ভুলে গেছেন?</a></div>':''}</div>
+  <div class="k" style="text-align:center">একাউন্ট খুললে আপনার হিসাব নিরাপদে জমা থাকে, ফোন বদলালেও ফিরে পাবেন।</div>`;
+  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>showAuth(b.dataset.m));
+  const go=$('#ago');go.onclick=async()=>{const em=$('#ae').value.trim(),pw=$('#aw').value;$('#er').textContent='';
+    if(!em||pw.length<6)return $('#er').textContent='ইমেইল ও কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন';go.disabled=true;
+    try{
+      if(mode==='up'){const n=$('#an').value.trim(),sp=$('#as').value.trim(),ph=$('#ap').value.trim();
+        if(n.length<2||sp.length<2||!/^01\d{9}$/.test(ph)){go.disabled=false;return $('#er').textContent='নাম, দোকানের নাম ও ১১ সংখ্যার মোবাইল নম্বর দিন'}
+        signingUp=true;const c=await FB.createUserWithEmailAndPassword(FB.auth,em,pw);ME=c.user;
+        try{await FB.updateProfile(c.user,{displayName:n})}catch(e){}
+        PF={name:n,shop:sp,phone:ph,email:em,paid:false,ts:Date.now()};await FB.setDoc(FB.doc(FB.db,'khata_users',ME.uid),PF);D=blank();D.shop=sp;signingUp=false;await enter()}
+      else await FB.signInWithEmailAndPassword(FB.auth,em,pw)
+    }catch(e){signingUp=false;go.disabled=false;$('#er').textContent=ae(e)}};
+  const fg=$('#fg');if(fg)fg.onclick=async e=>{e.preventDefault();const em=$('#ae').value.trim();if(!em)return $('#er').textContent='ইমেইল লিখে আবার চাপুন';try{await FB.sendPasswordResetEmail(FB.auth,em);toast('ইমেইলে পাসওয়ার্ড বদলানোর লিংক গেছে ✓')}catch(x){$('#er').textContent=ae(x)}}
+}
+function showProfileForm(){
+  nav(false);$('#app').innerHTML=`<h2>আপনার তথ্য দিন</h2><div class="card"><label style="margin-top:0">আপনার নাম</label><input id="an" value="${esc(ME.displayName||'')}"><label>দোকানের নাম</label><input id="as"><label>মোবাইল নম্বর</label><input id="ap" inputmode="numeric" maxlength="11" placeholder="01XXXXXXXXX"><div class="err" id="er"></div><button class="btn b" id="ps">চালু করুন</button></div>`;
+  $('#ps').onclick=async()=>{const n=$('#an').value.trim(),sp=$('#as').value.trim(),ph=$('#ap').value.trim();if(n.length<2||sp.length<2||!/^01\d{9}$/.test(ph))return $('#er').textContent='সব তথ্য ঠিকমতো দিন';
+    try{PF={name:n,shop:sp,phone:ph,email:ME.email,paid:false,ts:Date.now()};await FB.setDoc(FB.doc(FB.db,'khata_users',ME.uid),PF);D=blank();D.shop=sp;await enter()}catch(e){$('#er').textContent=ae(e)}}
+}
+async function enter(){nav(true);if(!D||!D.prods)D=blank();draw();mark('ok')}
+async function boot(){
+  $('#app').innerHTML='<div class="empty">লোড হচ্ছে…</div>';nav(false);
+  PF=await getPF();if(!PF){showProfileForm();return}
+  await loadData();if(!D.shop&&PF.shop)D.shop=PF.shop;await enter()
+}
+function start(){FB=window.FB;FB.onAuthStateChanged(FB.auth,u=>{ME=u;if(!u){D=blank();PF=null;clearTimeout(syncT);showAuth('in');return}if(signingUp)return;boot()})}
+if(window.FB)start();else window.addEventListener('fbready',start);
+</script><script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,updateProfile,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,getDoc,setDoc,updateDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyD1uWle_USBMBO_rJuT64TMCmmzyO1rdH8",authDomain:"techcraft-gigs.firebaseapp.com",projectId:"techcraft-gigs",storageBucket:"techcraft-gigs.firebasestorage.app",messagingSenderId:"402779044950",appId:"1:402779044950:web:f728c347d9d23d18b48ff7"});
+window.FB={auth:getAuth(app),db:getFirestore(app),onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,updateProfile,sendPasswordResetEmail,doc,getDoc,setDoc,updateDoc};
+window.dispatchEvent(new Event('fbready'));
+</script></body></html>

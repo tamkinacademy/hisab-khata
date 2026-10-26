@@ -1,0 +1,34 @@
+<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>হিসাব খাতা – অ্যাডমিন</title>
+<style>
+:root{--bg:#0b1210;--c1:#111c19;--ln:#24382f;--tx:#eef5f2;--mut:#93a8a0;--gold:#e8b94a;--mint:#5eead4;--ok:#4ade80;--red:#ff7a7a}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--tx);font-family:'Hind Siliguri',system-ui,sans-serif;max-width:640px;margin:auto;padding:16px}
+h1{font-size:22px;margin-bottom:12px}input{width:100%;background:var(--c1);border:1px solid var(--ln);border-radius:12px;padding:12px 13px;color:var(--tx);font:inherit;margin:5px 0;outline:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:42px;padding:0 18px;border-radius:12px;font:inherit;font-weight:700;border:0;cursor:pointer;background:linear-gradient(135deg,#e8b94a,#f3cf7a);color:#1a1405}.btn.g{background:var(--c1);color:var(--tx);border:1px solid var(--ln)}.btn.r{background:rgba(255,122,122,.14);color:var(--red);border:1px solid rgba(255,122,122,.35)}.btn.s{height:34px;font-size:14px;padding:0 14px}
+.card{background:var(--c1);border:1px solid var(--ln);border-radius:14px;padding:12px 14px;margin-bottom:10px}.k{color:var(--mut);font-size:14px}.pill{font-size:12px;border-radius:99px;padding:1px 9px}.pill.o{background:rgba(74,222,128,.14);color:var(--ok)}.pill.g{background:rgba(232,185,74,.15);color:var(--gold)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between}.err{color:var(--red);min-height:20px}.st{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}.st div{background:var(--c1);border:1px solid var(--ln);border-radius:12px;padding:10px;text-align:center}.st b{display:block;font-size:22px;color:var(--gold)}
+</style></head><body><h1>🛠️ হিসাব খাতা – অ্যাডমিন</h1><div id="app"></div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,getDoc,updateDoc,collection,query,orderBy,limit,getDocs} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyD1uWle_USBMBO_rJuT64TMCmmzyO1rdH8",authDomain:"techcraft-gigs.firebaseapp.com",projectId:"techcraft-gigs",storageBucket:"techcraft-gigs.firebasestorage.app",messagingSenderId:"402779044950",appId:"1:402779044950:web:f728c347d9d23d18b48ff7"});
+const auth=getAuth(app),db=getFirestore(app);const $=s=>document.querySelector(s),A=$('#app');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fd=t=>{const d=new Date(t);return d.getDate()+'/'+(d.getMonth()+1)+'/'+d.getFullYear()};
+function login(){A.innerHTML=`<div class="card"><input id="e" type="email" placeholder="অ্যাডমিন ইমেইল"><input id="p" type="password" placeholder="পাসওয়ার্ড"><div class="err" id="er"></div><button class="btn" id="go" style="width:100%">লগইন</button></div>`;
+ $('#go').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('#e').value.trim(),$('#p').value)}catch(e){$('#er').textContent='ইমেইল বা পাসওয়ার্ড ভুল'}}}
+onAuthStateChanged(auth,async u=>{
+  if(!u)return login();A.innerHTML='<div class="k">লোড হচ্ছে…</div>';
+  let ok=false;try{ok=(await getDoc(doc(db,'admins',u.uid))).exists()}catch(e){}
+  if(!ok){A.innerHTML=`<div class="card">এই একাউন্ট অ্যাডমিন নয়।<br><button class="btn g s" id="lo" style="margin-top:10px">লগআউট</button></div>`;$('#lo').onclick=()=>signOut(auth);return}
+  let L=[];try{L=(await getDocs(query(collection(db,'khata_users'),orderBy('ts','desc'),limit(300)))).docs.map(d=>({id:d.id,...d.data()}))}catch(e){A.innerHTML='<div class="card">ডেটা পড়া যায়নি: '+esc(e.code||e)+'</div>';return}
+  let q='',f='all';
+  const draw=()=>{const R=L.filter(x=>(f==='all'||(f==='p'?x.paid:!x.paid))&&(!q||(x.name+x.shop+x.phone+x.email).toLowerCase().includes(q)));
+   A.innerHTML=`<div class="st"><div><b>${L.length}</b>মোট ইউজার</div><div><b>${L.filter(x=>x.paid).length}</b>পেইড</div><div><b>${L.filter(x=>!x.paid).length}</b>ট্রায়াল</div></div>
+   <input id="q" placeholder="নাম, ফোন বা ইমেইল খুঁজুন" value="${esc(q)}"><div class="row" style="margin:8px 0"><button class="btn g s" data-f="all">সব</button><button class="btn g s" data-f="n">ট্রায়াল</button><button class="btn g s" data-f="p">পেইড</button><button class="btn g s" id="lo">লগআউট</button></div>
+   ${R.map(x=>`<div class="card"><div class="row"><b>${esc(x.name)} <span class="k">· ${esc(x.shop)}</span></b><span class="pill ${x.paid?'o':'g'}">${x.paid?'পেইড':'ট্রায়াল'}</span></div><div class="k">📞 ${esc(x.phone)} · ✉️ ${esc(x.email)} · ${fd(x.ts)}</div><div style="margin-top:8px;display:flex;gap:8px"><button class="btn s ${x.paid?'r':''}" data-t="${x.id}">${x.paid?'বন্ধ করুন':'✓ চালু করুন (পেমেন্ট পেয়েছি)'}</button><a class="btn g s" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/88${esc(x.phone)}">💬</a></div></div>`).join('')||'<div class="k">কেউ নেই</div>'}`;
+   $('#q').oninput=e=>{q=e.target.value.trim().toLowerCase();const c=e.target.selectionStart;draw();$('#q').focus();$('#q').setSelectionRange(c,c)};
+   document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{f=b.dataset.f;draw()});$('#lo').onclick=()=>signOut(auth);
+   document.querySelectorAll('[data-t]').forEach(b=>b.onclick=async()=>{const x=L.find(y=>y.id===b.dataset.t);if(!confirm((x.paid?'বন্ধ':'চালু')+' করবেন? '+x.name))return;try{await updateDoc(doc(db,'khata_users',x.id),{paid:!x.paid});x.paid=!x.paid;draw()}catch(e){alert('হয়নি: '+(e.code||e))}})};
+  draw()});
+</script></body></html>
